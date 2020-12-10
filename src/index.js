@@ -23,9 +23,20 @@ import {
   SpectacleLogo,
   Stepper,
   Text,
+  Link,
   UnorderedList,
   indentNormalizer
 } from 'spectacle';
+
+import title from './assets/title.jpg';
+import lerna from './assets/lerna.png';
+import yarn from './assets/yarn.svg';
+import step1 from './assets/step1.png';
+import step2 from './assets/step2.png';
+import step3 from './assets/step3.png';
+import modular from './assets/modular_things.jpg';
+import repetitivechanges from './assets/repetitivechanges.png';
+import prchaos from './assets/prchaos.png';
 
 // SPECTACLE_CLI_THEME_START
 const theme = {
@@ -37,7 +48,7 @@ const theme = {
 // SPECTACLE_CLI_THEME_END
 
 // SPECTACLE_CLI_TEMPLATE_START
-const template = () => (
+const template = ({ slideNumber, numberOfSlides }) => (
   <FlexBox
     justifyContent="space-between"
     position="absolute"
@@ -48,7 +59,7 @@ const template = () => (
       <FullScreen />
     </Box>
     <Box padding="1em">
-      <Progress />
+      <Text>{slideNumber} / {numberOfSlides}</Text>
     </Box>
   </FlexBox>
 );
@@ -107,10 +118,256 @@ int main()
 
 const Presentation = () => (
   <Deck theme={theme} template={template} transitionEffect="fade">
+    <Slide justifyContent="center">
+          <Image src={title} />
+            {/* <Layout>
+              <Fill>
+                <Text textColor="secondary">Johannes Stein</Text>
+                <Text textColor="secondary" style={{ fontSize: "1.75rem" }}>Senior Front-End Developer at Gamesys</Text>
+              </Fill>
+              <Fill>
+                <Text textColor="secondary">@frostney_</Text>
+              </Fill>
+            </Layout> */}
+        </Slide>
+        <Slide justifyContent="center">
+          <Heading fontSize="h2">We 💖 modularity, don't we?</Heading>
+        </Slide>
+        <Slide>
+          <Image src={modular} />
+        </Slide>
+        <Slide>
+          <Heading fontSize="h3" textColor="secondary">
+            Imagine a project growing over time
+          </Heading>
+        </Slide>
+        <Slide>
+          <Image src={step1} />
+        </Slide>
+        <Slide>
+          <Image src={step2} />
+        </Slide>
+        <Slide>
+          <Image src={step3} />
+        </Slide>
+        <Slide>
+          <Heading fontSize="h2">What is a monorepo?</Heading>
+          <Link href="https://developer.atlassian.com/blog/2015/10/monorepos-in-git/" textColor="secondary">developer.atlassian.com/blog/2015/10/monorepos-in-git/</Link>
+        </Slide>
+        <Slide>
+          <Heading fontSize="h3">
+            The repository contains more than one logical project
+          </Heading>
+        </Slide>
+        <Slide>
+          <Heading fontSize="h3">
+            These projects are most likely unrelated, loosely connected or can be connected by other means
+          </Heading>
+        </Slide>
+        <Slide>
+          <Heading fontSize="h3">
+            Multiple repositories
+          </Heading>
+          <CodePane source={require("raw-loader!./assets/polyrepo.example")} />
+        </Slide>
+        <Slide>
+          <Heading fontSize="h3">
+            Monorepo
+          </Heading>
+          <CodePane source={require("raw-loader!./assets/monorepo.example")} />
+        </Slide>
+        <Slide>
+          <Heading fontSize="h2">
+            What is working well
+          </Heading>
+        </Slide>
+        <Slide bgColor="primary">
+          <Heading fontSize="h3">
+            Single lint, build, test and release process
+          </Heading>
+        </Slide>
+        <Slide>
+          <Heading fontSize="h4">
+            Decentralized ESLint files...
+          </Heading>
+          <CodePane source={require("raw-loader!./assets/polyrepo.eslint.example")} />
+        </Slide>
+        <Slide>
+          <Heading fontSize="h4">
+            ...become centralized
+          </Heading>
+          <CodePane source={require("raw-loader!./assets/monorepo.eslint.example")} />
+        </Slide>
+        <Slide>
+          <Heading fontSize="h4">
+            Extend from centralized if necessary
+          </Heading>
+          <CodePane lang="json" source={require("raw-loader!./assets/eslintrc.example")} />
+        </Slide>
+        <Slide bgColor="primary">
+          <Heading fontSize="h3">
+            Easier to set up the development environment
+          </Heading>
+        </Slide>
+        <Slide bgColor="primary">
+          <Heading fontSize="h3">
+            Easier to coordinate changes across the codebase
+          </Heading>
+        </Slide>
+        <Slide>
+          <Image src={repetitivechanges} />
+        </Slide>
+        <Slide>
+          <Heading fontSize="h3">
+            Removes dependencies on code reviews
+          </Heading>
+        </Slide>
+        <Slide>
+          <Image src={prchaos} />
+        </Slide>
+        <Slide>
+          <Heading fontSize="h3">
+            Removes the need to release common pieces of code
+          </Heading>
+        </Slide>
+        <Slide>
+          <Heading fontSize="h3">
+            Simplifies end-to-end testing
+          </Heading>
+        </Slide>
+        <Slide>
+        <Heading fontSize="h2">
+          Challenges
+        </Heading>
+      </Slide>
+      <Slide>
+        <Heading fontSize="h3">
+          Intimidating codebase
+        </Heading>
+      </Slide>
+      <Slide>
+        <Heading fontSize="h3">
+          Dealing with the size of monorepos
+        </Heading>
+      </Slide>
+      <Slide>
+        <Heading fontSize="h4">
+          Check out single branch
+        </Heading>
+        <Appear>
+          <CodeSpan>git clone myrepo --single-branch</CodeSpan>
+        </Appear>
+      </Slide>
+      <Slide>
+        <Heading fontSize="h4">
+          Shallow clone
+        </Heading>
+        <Appear>
+          <CodeSpan>git clone myrepo --depth=1</CodeSpan>
+        </Appear>
+        <br/><br/>
+        <Appear>
+          <CodeSpan>git clone myrepo --shallow-since=2017-01-01</CodeSpan>
+        </Appear>
+        <Appear>
+        <Heading fontSize="h4">(Uses <CodeSpan>--single-branch</CodeSpan> by default)</Heading>
+        </Appear>
+      </Slide>
+      <Slide>
+        <Heading fontSize="h4">
+          Git Large File Storage
+        </Heading>
+        <Link href="https://git-lfs.github.com">git-lfs.github.com</Link>
+      </Slide>
+      <Slide>
+        <Heading fontSize="h3">
+          Continous integration might need to be configured
+        </Heading>
+      </Slide>
+      <Slide>
+        <Heading fontSize="h3">
+          Synchronization with Open Source repositories
+        </Heading>
+      </Slide>
+      <Slide>
+        <Heading fontSize="h4">
+          Git submodules
+        </Heading>
+      </Slide>
+      <Slide bgColor="primary">
+        <Heading fontSize="h4">
+          Compare commits
+        </Heading>
+        <Appear>
+          <Heading fontSize="h4">
+            Create patches
+          </Heading>
+        </Appear>
+        <Appear>
+          <Heading fontSize="h4">
+            Apply patches on monorepo
+          </Heading>
+        </Appear>
+      </Slide>
+      <Slide>
+        <Heading fontSize="h3">
+          Ownership
+        </Heading>
+      </Slide>
+      <Slide>
+        <Heading fontSize="h4"><CodeSpan>CODEOWNERS</CodeSpan></Heading>
+        <CodePane source={require("raw-loader!./assets/codeowners.example")} style={{ marginBottom: 40 }} />
+        <Link href="https://help.github.com/articles/about-codeowners/">help.github.com/articles/about-codeowners/</Link>
+      </Slide>
+      <Slide>
+          <Heading fontSize="h2">
+            Tooling
+          </Heading>
+        </Slide>
+        <Slide>
+          <Heading fontSize="h3">
+            It's just a bunch of folders
+          </Heading>
+          <br />
+          <Appear>
+          <Heading fontSize="h3">
+            We need a tool to run the same command across multiple folders
+          </Heading>
+          </Appear>
+        </Slide>
+        <Slide>
+          <Image src={lerna} />
+          <br />
+          <Link href="https://lernajs.io/">https://lernajs.io</Link>
+        </Slide>
+        <Slide>
+          <Image src={yarn} />
+          <br />
+          <Link href="https://yarnpkg.com">https://yarnpkg.com</Link>
+        </Slide>
+        <Slide>
+            <Heading caps lineHeight={1}>Thank you!</Heading>
+            <Heading fontSize="h2">❤️</Heading>
+            <Heading fontSize="h2">
+            <Text>
+              <Link href="http://frostney.github.io/talks/monorepo-nov2017">http://frostney.github.io/talks/monorepo-nov2017</Link>
+            </Text>
+            </Heading>
+            {/* <Layout>
+              <Fill>
+                <Text textColor="secondary">@frostney_</Text>
+              </Fill>
+            </Layout> */}
+          </Slide>
     <Slide>
       <FlexBox height="100%">
-        <SpectacleLogo size={500} />
+        <Heading margin="0px" fontSize="150px">
+          The hard road from multi-repos to a monorepo
+        </Heading>
       </FlexBox>
+    </Slide>
+    <Slide>
+      <SpectacleLogo size={500} />
     </Slide>
     <Slide>
       <FlexBox height="100%" flexDirection="column">
